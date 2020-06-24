@@ -25,9 +25,15 @@ class TodoList extends React.Component {
 
   handleUndo = () => {{
     this.setState({
-      listItems: this.state.history[0]
+      listItems: this.state.history[0] || this.state.listItems
     })
   }}
+
+  handleNewItem = itemText => {
+    this.setState({
+      listItems: [...this.state.listItems, itemText]
+    })
+  }
 
   render() {
     console.log(this.state)
@@ -36,7 +42,11 @@ class TodoList extends React.Component {
       {this.state.listItems.map((listItem, i) => {
         return <ListItem key={i} itemText={listItem} onDelete={() => this.handleDeleteItem(i)} />
       })}
-      <button onClick={this.handleUndo}>Undo Delete</button>
+      <button onClick={this.handleUndo}>Undo Previous</button>
+      <div>
+        <input type="text"></input>
+        <button onClick={(event) => this.handleNewItem(event.target.previousSibling.value)}>+</button>
+      </div>
     </div>
     )
   }
